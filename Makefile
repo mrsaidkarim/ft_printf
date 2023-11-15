@@ -6,12 +6,12 @@
 #    By: skarim <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/10 16:58:54 by skarim            #+#    #+#              #
-#    Updated: 2023/11/14 12:21:44 by skarim           ###   ########.fr        #
+#    Updated: 2023/11/15 11:59:06 by skarim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra -Werror 
 srcs = ft_printf.c ft_putchar.c ft_putdec.c ft_putstr.c ft_putadress.c ft_puthex.c ft_putuns.c ft_puthexup.c
 objs = $(srcs:.c=.o)
 NAME = libftprintf.a
@@ -33,5 +33,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
