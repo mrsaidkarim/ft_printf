@@ -6,7 +6,7 @@
 /*   By: skarim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 12:57:47 by skarim            #+#    #+#             */
-/*   Updated: 2023/11/14 10:05:26 by skarim           ###   ########.fr       */
+/*   Updated: 2023/11/15 15:00:20 by skarim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static	int	ft_next(char *format, va_list args, int index, int size)
 		return (ft_putstr(va_arg(args, char *), size));
 	else if (format[index] == 'p')
 		return (ft_putadress(va_arg(args, void *), size));
-	else if (format[index] == 'd' || format[index] == 'i')
+	else if ((format[index] == 'd' || format[index] == 'i'))
 		return (ft_putdec(va_arg(args, int), size));
 	else if (format[index] == 'u')
 		return (ft_putuns(va_arg(args, unsigned int), size));
@@ -30,7 +30,9 @@ static	int	ft_next(char *format, va_list args, int index, int size)
 		return (ft_puthexup(va_arg(args, unsigned int), size));
 	else if (format[index] == '%')
 		return (ft_putchar('%', size));
-	return (0);
+	else if (format[index])
+		return (ft_putchar(format[index], size));
+	return (size);
 }
 
 int	ft_printf(const char *format, ...)
@@ -44,15 +46,17 @@ int	ft_printf(const char *format, ...)
 	if (write(1, "", 0) == -1 || !format)
 		return (-1);
 	va_start(args, format);
-	while (format[i])
+	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-			size = ft_next((char *)format, args, ++i, size);
-		else
 		{
-			size++;
-			write(1, &format[i], 1);
+			i++;
+			if (!format[i])
+				break ;
+			size = ft_next((char *)format, args, i, size);
 		}
+		else
+			size = ft_putchar(format[i], size);
 		i++;
 	}
 	va_end(args);
